@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>koa实现图片上传</title>
+</head>
+<body>
+    
+    <input type="file" class="file" name="avatar">
+
+
+    <button onclick="send()">上传</button>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+
+        let formData = new FormData();  // new FormData()
+        
+        document.querySelector('.file').addEventListener('change', function (e) {  // e：事件对象 
+            let files = e.target.files;
+            console.log(files)
+            if (!files.length) return;
+
+            formData.append('file', files[0], files[0].name);  // files[0]  files[0].name 文件名
+        })
+
+        function send() {
+            axios.post('http://localhost:3000/upload', formData, {
+                // 请求头：要有所改变
+                Headers: {
+                    "Content-type": "multipart/form-data"
+                }
+            })
+        }
+
+    </script>
+</body>
+</html>
